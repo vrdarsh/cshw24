@@ -1,5 +1,0 @@
-what is your name
-What is this file
-My name is Darsh.
-This is my practical file.
-python is a high level language.
