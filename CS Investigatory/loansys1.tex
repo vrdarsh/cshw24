@@ -1,0 +1,741 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{sectsty}
+\usepackage{lettrine}
+\usepackage{yfonts,xcolor}
+\usepackage{GoudyIn}
+\usepackage{erewhon}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{minted}
+\usepackage{csvsimple}
+\usepackage{newunicodechar}
+\usepackage[utf8]{inputenc}
+
+\graphicspath{ {Pics/} }
+\newunicodechar{╒}{}
+\newunicodechar{═}{}
+\newunicodechar{╤}{}
+\newunicodechar{╕}{}
+\newunicodechar{│}{}
+\newunicodechar{╡}{}
+\newunicodechar{╞}{}
+\newunicodechar{╪}{}
+\newunicodechar{╘}{}
+
+\newunicodechar{╧}{}
+\newunicodechar{╛}{}
+\newunicodechar{├}{}
+\newunicodechar{─}{}
+\newunicodechar{┼}{}
+% \lstnewenvironment{python}[1][]
+% {\lstset{language=Python,
+		%     tabsize=2,
+		%     breaklines=true,
+		%     basicstyle=\small\ttfamily,#1}}
+% {}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{%language   = SQL,
+	% backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codepurple},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codegreen},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=3
+}
+
+
+
+% \lstdefinestyle{mystyle}{
+	%     language=Python
+	%     backgroundcolor=\color{backcolour},   
+	%     commentstyle=\color{codegreen},
+	%     keywordstyle=\color{magenta},
+	%     numberstyle=\tiny\color{codegray},
+	%     stringstyle=\color{codepurple},
+	%     basicstyle=\ttfamily\footnotesize,
+	%     breakatwhitespace=false,         
+	%     breaklines=true,                 
+	%     captionpos=b,                    
+	%     keepspaces=true,                 
+	%     numbers=left,                    
+	%     numbersep=5pt,                  
+	%     showspaces=false,                
+	%     showstringspaces=false,
+	%     showtabs=false,                  
+	%     tabsize=2
+	% }
+
+\lstset{style=mystyle}
+
+
+
+
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{}
+\renewcommand{\thesection}{\centering{section}}
+
+\begin{filecontents*}{pwd.csv}
+	b'f4G6wEGUC1CdITG-QXTkTUbMEKgwVvtfElbdcDCkKE4=',b'gAAAAABlfzGKoOkVfnMVe1uLlVEAYAh0Ho_9iL0X4QzZhnCMsD6W7W5FTTAoAH7W7YfK7FZvAb91maa4B4QqPlb6YTYUHljX6A==',b'gAAAAABlfzGK2WvOUfG57R3uvjU4NL9Fv9Uf498MsfFSM0AWUrdCnvewl25M3w1YR-qMsls-5aCdXifkTmQVufvYuq852EdIiA==',b'gAAAAABlfzGKOzRfy2xFpnvbN6_gqgP_fXW-WUeYGoV37lUgab-qrgDT4OUUYOYoi_-I4Q7lK_8fRtLjfp7cSWuDvW_IRv-o2w==',b'gAAAAABlfzGKkuvGScmogkbYdxS8OMinvZtMdHTR3MAXxpHCMqnEac-UhTq1mWoW7-xqYJQijDbJoTaIIcc7Okz6fBCasNxxyw=='
+	b'c8e9J0UpIKrSLRsjKmZbjlWInIY4azw9232aUMgPYXw=',b'gAAAAABlhDpIHVKsq66XeTfbshJOcn7HJjK64TBT9r8P4QNknL6RLPuxeDSkK59su9ul95YsyNiqI5oJVOMHWYZZ9q1P_7i4PA==',b'gAAAAABlhDpIhki9T_FKiH9aJvPFna4L6jfYAU-4nMojZFgbBjy9pLrrqL8wh88cHcVmKrUJVA3g-6t5QJ6_N5uR9NaofFoaiQ==',b'gAAAAABlhDpIBS_ZJUf23YeBkd3LOzU8XqLIG3OslN0czTGLIanuBrM1lH7DRlzSr-PfNifEjdkcbitmaGd_uCWza9QtpLvRQQ==',b'gAAAAABlhDpIKnIbxNp6Zw9VH78sOtD1yh38llHKO_HTMqmK1Pl73lAwc4wVjy7Uf9YUB_1I5_diJbiRihcRPxDCMSmy9syDXA=='
+	b'WAaJF_V9vdZ9sHo3ed8NK-26DfALeShnhVwr2LJ8r54=',b'gAAAAABlhDqSDcxM2R2nJ9G0tsCBnh_yqVersoNGpav4KJ71HoOEuCm-R7uUKUm4nKKUfYPNAVihS70YdeWbxcAzMTcewGKtxw==',b'gAAAAABlhDqSE8zHkPLWK2H8w6cBzDXzTntjonRZ9a3QuMJAJlVJNGF15vkvQP-M9BBBLOG2F77Pfa8-sV_Fgs2anKSPQqMzhg==',b'gAAAAABlhDqS3fBIhsnmm9nB3W02_06aD66NG3Yvmg6TT3O9N1ztSmuGV8Cm_1nUDm_4EsXzqSbl3QY49xMdZt7_CnCE5pmJgQ==',b'gAAAAABlhDqSo6oFZdUNFZkP_WX7kfPx-8TBvOLwjbGu_7TINjv8fkn7dbZp1JfzW-fcDFOJWqZopuvlQI64ZamqCXrXJDgptg=='
+	b'19bLhOHhdYXV8MyxlcpGiysxV7kuOtaMoH_r7ebMxew=',b'gAAAAABlhD0ZOxO_jzqOkSQjw8ozmm-6pDWmkk3yf30Tl40Eh54FKPMAwU9kCPiFB19tdBue5JIK1FcFsgetTK3nAaGcKlyVWA==',b'gAAAAABlhD0ZXPhxYix3WCQIQfc64tH7USFRERhToItGDNH1AIJ12cUuOLnogdNQOSgN4Nkp1bQO0zO6cPwlQlKk13mwB4bkpw==',b'gAAAAABlhD0Z2BVOb_VzAebUPIODK25WIddgRcwFVFztXBaqgUvAMBKXv9yO5zaMSDbwOPBQ6Jei4eMAQdaN0VMRAaU5jYvadA==',b'gAAAAABlhD0ZeHqDUnWdecqy6onZHp68o46me9fevvD0BfjX6kr0EPRWoauQNlJdPiaCpf3IuuMmXVXCOgI7KKd0zKz-eb7ITQ=='
+	b'H2LWWUpjSZEN6YZxWmMFqUmB9nPst2neDyhN-DbD_KY=',b'gAAAAABlhD20ig2Q4iK6JOVmJwkZZSsYIn1HBBjNH8SZvAThR2d2H8TvIO3kWa5ja7zvykgDCrKkzYvqAr5o_NgEBwVXU3DNxQ==',b'gAAAAABlhD20P1jUmmd5jseMaHI1Rnpv0Sm_-gkEGZmwLIHNVeREqYI-x_jfUPszFJXKmJ-biFlUlOlCfq3t91hTnAtEONHXQw==',b'gAAAAABlhD203gW-nqJWb7uXO_TRKX8Mctd50ax-qXmCle3POftRrJEY8cQX4CB4i5K0wJx8wXMen61g_ZkW-5Bxmdd3wwn27g==',b'gAAAAABlhD20VdiIfDgTiHK_emRj4m2g-3ZFfXqLPWRRtL7KynZMZbYHphEFuB1J84UA9EM463gD4cwTWVY7e8oiuYTD4YP-dQ=='
+\end{filecontents*}
+
+\begin{document}
+	\begin{titlepage}
+		%https://en.wikibooks.org/wiki/LaTeX/Title\_Creation#A_practical_example
+		\centering
+		\includegraphics[width=0.15\textwidth]{fasn.png}\par\vspace{1cm}
+		{\scshape\LARGE Father Agnel School Noida \par}
+		\vspace{1cm}
+		{\scshape\Large Investigatory Project\par}
+		\vspace{1.5cm}
+		{\huge\bfseries Loan Management System\par}
+		\vspace{2cm}
+		{\Large\itshape V. R. Darsh\par}
+		\vfill
+		supervised by\par
+		Mrs. Anika \textsc{Agarwal}
+		
+		\vfill
+		
+		% Bottom of the page
+		{\large October 21, 2023\par}
+	\end{titlepage}
+	\newpage
+	\thispagestyle{empty}
+	
+	%%%certificate
+	\begin{large}
+		\addcontentsline{toc}{chapter}{Certificate} 
+		\begin{center}
+			
+			%\huge{Father Agnel School Noida}\\[0.5cm]
+			{\scshape\huge Father Agnel School Noida \par}
+			\vspace{1cm}
+			\normalsize
+			\textsc{Computer Science Investigatory Project}\\[2.0cm]
+			
+			\emph{\huge Certificate}\\[2.5cm]
+		\end{center}
+		\normalsize This is to certify that Mr. V. R. Darsh of the class XII-A studying in our institute has completed the project titled "Loan Management System" under the guidance of Mrs. Anika Agarwal. He has done so in part fulfillment of the requirement specified in the curriculum prescribed by Central Board of Secondary Education.\\[1.0cm]
+		
+		
+		\vfill
+		
+		
+		% Bottom of the page
+		\noindent{External Examiner \hfill Mrs. Anika Agarwal}
+		\\ \mbox{}\hfill (Teacher and Mentor) \\[1.5cm]
+		%	\begin{flushright}
+			%		Mr. Alistair R A Freese\\
+			%		(Principal)\\
+			%	\end{flushright}
+		
+		\begin{flushleft}
+			Date: 21 October, 2023
+		\end{flushleft}
+		
+		
+		\newpage
+		\thispagestyle{empty}
+		%%%acknowledgements
+	\end{large}
+	
+	\newpage
+	\thispagestyle{empty}
+	
+	%%%acknowledgements
+	\begin{large}
+		\begin{center}
+			
+			%\huge{Father Agnel School Noida}\\[0.5cm]
+			{\scshape\huge Acknowledgment \par}
+			\vspace{1cm}
+			
+		\end{center}
+		
+		\normalsize I revere with gratitude, the exhortation endowed by my teacher and mentor Mrs. Anika Agarwal as well as our Principal Mr. Alexander Coates Reid for my project entitled \textbf{Loan Management System}. \\
+		I am also greatly indebted to my family and my friends for their indebted cooperation.\\
+		
+		\vspace{7cm}
+		\begin{flushright}
+			V. R. Darsh\\
+			XII-A
+		\end{flushright}
+		
+	\end{large} 
+	
+	\newpage
+	\thispagestyle{empty}
+	
+	%%%table of contents
+	
+	\begin{large}
+		
+		\begin{center}
+			{{\scshape\huge Contents \par}
+				\vspace{1cm}}
+		\end{center}
+		
+		\noindent Certificate \hfill iii \\
+		Acknowledgments \hfill v \\
+		\vspace{0.5cm}
+		
+		\noindent Introduction \hfill 1\\
+		Code \hfill 2\\
+		First Time User Interaction \hfill 8\\
+		Existing User Interaction Telescopes \hfill 11\\
+		Output File \hfill 13\\
+		Conclusion \hfill 14\\
+		Bibliography \hfill 15\\
+		
+	\end{large}
+	
+	\newpage
+	\pagenumbering{arabic}
+	%%History
+	
+	
+	\begin{normalsize}
+		{\centering{\scshape\huge Introduction \par}}
+		\vspace{1.5cm}
+		
+		\lettrine{\GoudyInfamily{T}}{he} Python code was made to record the loans issued and to show also EMI and Total amount which is to be paid by the user. This code doesn't require the user to make his/her own database or tables, only the username and password is required for MySQL.\\
+		\\
+		\textbf{NOTE}: The user should have the following libraries downloaded:
+		\begin{itemize}
+			\item mysql.connector
+			\item Cryptography and sub-library Fernet
+			\item tabulate\\
+			To download the libraries, type \textbf{pip install <library name>} in command prompt.
+		\end{itemize}
+		\lettrine{}{}
+		{\\{\noindent \scshape \LARGE Libraries}}\\
+		\\
+		The libraries used in the code are as follows:\\
+		\\
+		\textbf{MySQL-Connector}: It is used to connect to the database and also execute commands which would make the table and store the data given.\\
+		\\
+		\textbf{Cryptography}: It is used to encrypt and decrypt the data and password of user. It uses the Fernet encryption.\\
+		\\	
+		\textbf{CSV}: The csv module allows users to read and write tabular data in CSV format. This has been used to make a file which store the encrypted password and username of the users.\\
+		\\	
+		\textbf{Tabulate}: This module helps us to create tables which shows the data in a more systematic and clear way.\\
+		
+		
+		\label{key}	
+		\lettrine{}{}
+	\end{normalsize}
+	
+	\newpage
+	\begin{normalsize}
+		{\centering{\scshape\huge Python Code \par}}
+		\vspace{1cm}
+		\begin{lstlisting}[language=Python]		
+			import mysql.connector as mysql
+			from cryptography.fernet import Fernet
+			import csv
+			from tabulate import tabulate
+			
+			filerand=open("pwd.csv", "a+")
+			filerand.close()
+			
+			def mysqlcom(user1,pwd1):
+			con=mysql.connect(host="localhost",user=user1,passwd=pwd1)
+			if con.is_connected():
+			print("Connection Established")
+			return "w"
+			else:
+			print("Connection Errors! Kindly check!!!")
+			return "l"
+			
+			def enc(k, char):
+			cipher_suite = Fernet(k)
+			encoded_text = cipher_suite.encrypt(char.encode())
+			return encoded_text
+			
+			def dec(k, char):
+			cipher_suite = Fernet(k)
+			decoded_text = cipher_suite.decrypt(char)
+			decoded_text_updated = decoded_text.decode()
+			return decoded_text_updated
+			
+			def stripp(texa):
+			texb=texa[2:-1]
+			texc=texb.encode()
+			return texc
+			
+			
+			def login():
+			a=True
+			while a==True:
+			a1=input("Please enter your MySQL username(default=root): ")
+			a2=input("Password(default=root): ")
+			if a1=='':
+			a1='root'
+			if a2=='':
+			a2='root'
+			x= mysqlcom(a1,a2)
+			if (x=="w"):
+			break
+			else:
+			print("Your Username or Password is incorrect.")
+			
+			b=True
+			z=0
+			while b==True:
+			pass
+			n= input("Enter your new username: ")
+			fields = []
+			rows = []
+			with open("pwd.csv","r+") as f1:
+			z=0
+			csvreader = csv.reader(f1)
+			for row in csvreader:
+			rows.append(row)
+			for i in rows:
+			for j in i:
+			if j!=i[0]:
+			j1=stripp(j)
+			ap=dec(stripp(i[0]),stripp(j))
+			if (ap==n):
+			z=1
+			if z==1:
+			print("Username already exists")
+			continue
+			p= input("Enter your new password: ")
+			p1=input("Enter your new password: ")
+			if p==p1:
+			b=False
+			else:
+			print("Passwords don't match, Please try again")
+			
+			
+			with open("pwd.csv", 'a+') as csvfile:
+			csvw=csv.writer(csvfile,delimiter=',')
+			r1=[]
+			cred=[n,p,a1,a2]
+			key = Fernet.generate_key()
+			r1.append(key)
+			for o in cred:
+			f56=enc(key,o)
+			r1.append(f56)
+			csvw.writerow(r1)
+			
+			print("Welcome",n)
+			mnsc(n)
+			
+			def logon():
+			ag=True
+			while ag==True:
+			usr=input("Enter your username: ")
+			fields = []
+			rows = []
+			f1= open("pwd.csv","r")
+			z=0
+			k=0
+			csvreader = csv.reader(f1)
+			for row in csvreader:
+			rows.append(row)
+			for i in rows:
+			for j in i:
+			if j!=i[0]:
+			j1=stripp(j)
+			ap=dec(stripp(i[0]),stripp(j))
+			ap1=dec(stripp(i[0]),stripp(i[2]))
+			if (ap==usr):
+			pwd=input("Enter your password: ")
+			if(pwd==ap1):
+			print("Welcome Back", usr)
+			z=1
+			mnsc(usr)
+			else:
+			print("Wrong Password.")
+			k+=1
+			if k==3:
+			print("Maximum attemps reached. Going back.\n")
+			screen1()
+			else:
+			continue
+			if z==0 and k==0:
+			print("There is no user called",usr,".Please Try again.\n")
+			screen1()
+			f1.close()
+			
+			def screen1():
+			print("Good morning")
+			a=input("First time?(y/N)[Enter 0 to quit]:")
+			if(a.lower() in 'nopenadanot '):
+			logon()
+			elif (a.lower() in "yesyep"):
+			login()
+			elif (a=='0'):
+			quit()
+			else:
+			print("Please choose a valid option.\n")
+			screen1()
+			
+			def mnsc(userr):
+			rows=[]
+			f1= open("pwd.csv","r")
+			csvreader = csv.reader(f1)
+			for row in csvreader:
+			rows.append(row)
+			for i in rows:
+			if userr==dec(stripp(i[0]),stripp(i[1])):
+			usr=dec(stripp(i[0]),stripp(i[1]))
+			pwd=dec(stripp(i[0]),stripp(i[2]))
+			sqlusr=dec(stripp(i[0]),stripp(i[3]))
+			sqlpwd=dec(stripp(i[0]),stripp(i[4]))
+			mydb=mysql.connect(host='localhost',user=sqlusr,passwd=sqlpwd)
+			cursor=mydb.cursor()
+			cursor.execute("show databases;")
+			z1=0
+			for x in cursor:
+			if "loans" in x:
+			z1+=1
+			if (z1==0):
+			cursor.execute("create database loans;")
+			mydb.commit()
+			tables=[]
+			
+			cursor.execute("use loans;")
+			cursor.execute("show tables;")
+			if cursor.fetchall()==[]:
+			x=str("create table "+userr+" (sno int,loanname varchar(50), loantype varchar(20),loanamt float, loandate date, months int, roi float,PRIMARY KEY(sno));")
+			cursor.execute(x)
+			cursor.execute("show tables;")
+			for y in cursor:
+			tables.append(y)	
+			for table in tables:
+			#print("a")
+			if userr in table:
+			print("Success")
+			else:
+			x=str("create table if not exists "+userr+" (sno int,loanname varchar(50), loantype varchar(20),loanamt float, loandate date, months int, roi float,PRIMARY KEY(sno));")
+			cursor.execute(x)
+			
+			asdas=True
+			while asdas==True:
+			inp=input("""You can do the following:\n1.View Loans\n2.Add Loans\n3.View Details of Loan\n4.Delete loans\n5.Exit\nWhat do you want to do?: """)
+			if inp=='1':
+			cursor.execute("select * from "+userr+";")
+			if cursor.fetchall()==[]:
+			print("No records found.\n")
+			else:
+			cursor.execute("select * from "+userr+";")
+			print(tabulate(cursor,headers=["Serial number","Name","Type","Amount","Date of Issue","Months","Interest rate % p.a"],tablefmt='fancy_grid'))
+			print("")
+			elif inp=='2':
+			kl=[]
+			cursor.execute("select * from "+userr+";")
+			for l in cursor:
+			kl.append(l[0])
+			if kl==[]:
+			k1=1
+			else:
+			k1=str(int(kl[-1])+1)
+			a11=input("Item/Purpose for which loan was taken: ")
+			a12=input("Interest type(Coumpound/Simple)(C/S): ")
+			a13=input("Amount borrowed: ")
+			a14=input("Date of issue(YYYY-MM-DD): ")
+			a16=input("Time to return loan(Months): ")
+			a18=input("Rate of Interest per annum:")
+			cursor.execute(str("insert into "+userr+" values("+str(k1)+",'"+str(a11)+"'"+",'"+str(a12)+"',"+str(a13)+",'"+str(a14)+"',"+str(a16)+","+str(a18)+");"))
+			mydb.commit()
+			print("Successfully added.\n")char"2552
+			
+			
+			elif inp=='3':
+			cursor.execute("select * from "+userr+";")
+			if cursor.fetchall()==[]:
+			print("No records found.\n")
+			continue
+			h=input("Enter the serial number of loan you want to view: ")
+			cursor.execute("select * from "+userr+" where sno="+h+";")
+			print(tabulate(cursor,headers=["Serial number","Name","Type","Amount","Date of Issue","Months","Interest rate % p.a"],tablefmt='fancy_grid'))
+			print("")
+			cursor.execute("select * from "+userr+" where sno="+h+";")
+			
+			for l in cursor:
+			if l[2].lower() in 'compound':
+			
+			emi=((int(l[3]))*((1 + ((int(l[-1]))/1200))**int(l[-2]))*((int(l[-1]))/1200))/(((1+(int(l[-1])/1200))**int(l[-2]))-1)
+			ta= (emi*int(l[-2]))
+			ti=ta-int(l[3])
+			print("Your EMI is ",emi)
+			print("Your total amount is ",ta,"(excluding fees and charges from lender)")
+			print("Your total interest is ",ti,"\n")
+			
+			elif l[2].lower() in 'simple':
+			ta= int(l[3])*(1 + (int(l[-1])*int(l[-2])/1200))
+			emi=int(l[3])*int(l[-1])*int(l[-2])/(1200)
+			print("Your total interest is ",emi)
+			print("Your total amount is ",ta,"\n")
+			
+			
+			elif inp=='4':
+			cursor.execute("select * from "+userr+";")
+			if cursor.fetchall()==[]:
+			print("No records found.\n")
+			continue
+			else:
+			inp1=input("Enter the serial number of the loan you want to delete:(enter 0 if not sure) ")
+			if inp1=='0':
+			continue
+			cursor.execute("delete from "+userr+" where sno="+inp1+";")
+			mydb.commit()
+			print("Successfully deleted.\n")
+			
+			
+			elif inp=='5':
+			f1.close()
+			quit()
+			
+			
+			else:
+			print("Choose a valid option.\n")
+			
+			screen1()
+		\end{lstlisting}
+	\end{normalsize}
+	\newpage
+	\begin{normalsize}
+		{\centering{\scshape\huge First Time User Interaction \par}}
+		\vspace{1.5cm}
+		\begin{minted}{text}
+			Good morning
+			First time?(y/N)[Enter 0 to quit]:y
+			Please enter your MySQL username(default=root): root
+			Password(default=root): vardar
+			Connection Established
+			Enter your new username: Darsh
+			Username already exists
+			Enter your new username: Dhruv
+			Enter your new password: 2006
+			Enter your new password: 2006
+			Welcome Dhruv
+			Success
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 1
+			No records found.
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 3
+			No records found.
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 4
+			No records found.
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 2
+			Item/Purpose for which loan was taken: Home
+			Interest type(Coumpound/Simple)(C/S): C
+			Amount borrowed: 6500000
+			Date of issue(YYYY-MM-DD): 2023-12-12
+			Time to return loan(Months): 240
+			Rate of Interest per annum:2
+			Successfully added.
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 1
+			╒═════════════════╤════════╤════════╤══════════╤═════════════════╤══════════╤═══════════════════════╕
+			│   Serial number │ Name   │ Type   │   Amount │ Date of Issue   │   Months │   Interest rate % p.a │
+			╞═════════════════╪════════╪════════╪══════════╪═════════════════╪══════════╪═══════════════════════╡
+			│               1 │ Home   │ C      │  6.5e+06 │ 2023-12-12      │      240 │    2 │
+			╘═════════════════╧════════╧════════╧══════════╧═════════════════╧══════════╧═══════════════════════╛
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 3
+			Enter the serial number of loan you want to view: 1
+			╒═════════════════╤════════╤════════╤══════════╤═════════════════╤══════════╤═══════════════════════╕
+			│   Serial number │ Name   │ Type   │   Amount │ Date of Issue   │   Months │   Interest rate % p.a │
+			╞═════════════════╪════════╪════════╪══════════╪═════════════════╪══════════╪═══════════════════════╡
+			│               1 │ Home   │ C      │  6.5e+06 │ 2023-12-12      │      240 │    2 │
+			╘═════════════════╧════════╧════════╧══════════╧═════════════════╧══════════╧═══════════════════════╛
+			
+			Your EMI is  32882.416777932
+			Your total amount is  7891780.02670368 (excluding fees and charges from lender)
+			Your total interest is  1391780.02670368 
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 4
+			Enter the serial number of the loan you want to delete:(enter 0 if not sure) 1
+			Successfully deleted.
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 5
+			
+		\end{minted}
+	\end{normalsize}
+	
+	\newpage
+	\begin{normalsize}
+		{\centering{\scshape\huge Existing User Interaction \par}}
+		\vspace{1.5cm}
+		\begin{minted}{text}
+			Good morning
+			First time?(y/N)[Enter 0 to quit]:
+			Enter your username: Darsh
+			Enter your password: 2006
+			Welcome Back Darsh
+			Success
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 1
+			╒═════════════════╤════════╤════════╤══════════╤═════════════════╤══════════╤═══════════════════════╕
+			│   Serial number │ Name   │ Type   │   Amount │ Date of Issue   │   Months │   Interest rate % p.a │
+			╞═════════════════╪════════╪════════╪══════════╪═════════════════╪══════════╪═══════════════════════╡
+			│               1 │ Car    │ C      │  1.2e+07 │ 2023-12-13      │      120 │      3 │
+			├─────────────────┼────────┼────────┼──────────┼─────────────────┼──────────┼───────────────────────┤
+			│               2 │ Home   │ C      │  1.5e+06 │ 2023-12-11      │      180 │      2 │
+			╘═════════════════╧════════╧════════╧══════════╧═════════════════╧══════════╧═══════════════════════╛
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 3
+			Enter the serial number of loan you want to view: 2
+			╒═════════════════╤════════╤════════╤══════════╤═════════════════╤══════════╤═══════════════════════╕
+			│   Serial number │ Name   │ Type   │   Amount │ Date of Issue   │   Months │   Interest rate % p.a │
+			╞═════════════════╪════════╪════════╪══════════╪═════════════════╪══════════╪═══════════════════════╡
+			│               2 │ Home   │ C      │  1.5e+06 │ 2023-12-11      │      180 │      2 │
+			╘═════════════════╧════════╧════════╧══════════╧═════════════════╧══════════╧═══════════════════════╛
+			
+			Your EMI is  9652.630508365695
+			Your total amount is  1737473.4915058252 (excluding fees and charges from lender)
+			Your total interest is  237473.4915058252 
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 4
+			Enter the serial number of the loan you want to delete:(enter 0 if not sure) 1
+			Successfully deleted.
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 1
+			╒═════════════════╤════════╤════════╤══════════╤═════════════════╤══════════╤═══════════════════════╕
+			│   Serial number │ Name   │ Type   │   Amount │ Date of Issue   │   Months │   Interest rate % p.a │
+			╞═════════════════╪════════╪════════╪══════════╪═════════════════╪══════════╪═══════════════════════╡
+			│               2 │ Home   │ C      │  1.5e+06 │ 2023-12-11      │      180 │        2 │
+			╘═════════════════╧════════╧════════╧══════════╧═════════════════╧══════════╧═══════════════════════╛
+			
+			You can do the following:
+			1.View Loans
+			2.Add Loans
+			3.View Details of Loan
+			4.Delete loans
+			5.Exit
+			What do you want to do?: 5
+			
+		\end{minted}
+	\end{normalsize}
+	\newpage
+	\begin{normalsize}
+		{{\centering\scshape\huge Output File\par}}\vspace{0.5cm}
+		The code produces one file named pwd.csv which contains the password and username in encrypted form.\\
+		This should be copied and pasted wherever the python code is present, else the credentials will be lost\\
+		\begin{center}
+			\includegraphics[width=16cm]{ss12.png}\par\vspace{1cm}
+		\end{center}
+	\end{normalsize}
+	\newpage
+	\begin{normalsize}
+		{\centering{\scshape\huge Conclusion \par}}
+		\vspace{1cm}
+		In conclusion, developing a Python program with a database has proven to be a powerful and versatile approach for managing and manipulating data. The integration of a database not only facilitates efficient data storage but also enables seamless retrieval, updating, and analysis of information within the application.\\
+		\\
+		The use of Python, with its clean syntax and extensive libraries, contributes to the ease of development and maintenance of the program. Leveraging a database adds a layer of organization and scalability, allowing the application to handle increasing volumes of data while maintaining optimal performance.\\
+		\\
+		Furthermore, the incorporation of a database in a Python program promotes data integrity and security. \\
+		\\
+		These types of applications can be used for personal benefits or managing local businesses. 
+		
+	\end{normalsize}
+	\newpage
+	\begin{normalsize}
+		{{\centering\scshape\huge Bibliography\par}}\vspace{0.5cm}
+		\begin{itemize}
+			\item https://stackexchange.com
+			\item https://cryptography.io/en/latest/fernet/
+			\item https://pypi.org/project/tabulate/
+			\item https://dev.mysql.com/doc/connector-python/en/
+		\end{itemize}
+	\end{normalsize}
+	
+\end{document}
